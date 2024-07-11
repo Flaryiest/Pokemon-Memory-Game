@@ -1,19 +1,20 @@
 import { useState, useEffect } from 'react'
 import PokemonCard from './PokemonCard'
+import Scoreboard from './Scoreboard'
 function App() {
   const [pokemonImageList, setPokemonImageList] = useState([])
+  const [clickedPokemon, setClickedPokemon] = useState([])
   useEffect(() => {
     let pokemonIds = getIds(12)
-    console.log(pokemonIds)
-    getPokemonImages(pokemonIds)
 
+    getPokemonImages(pokemonIds)
   }, [])
 
   function getIds(number) {
     let currentIds = []
     while (currentIds.length < number) {
       let potentialId = Math.floor(Math.random() * 151)
-      if (!(potentialId in currentIds)) {
+      if (!(currentIds.includes(potentialId))) {
         currentIds.push(potentialId)
       }
     }
@@ -30,15 +31,41 @@ function App() {
     }
     setPokemonImageList(currentImageList)
   }
-  console.log(pokemonImageList)
+
+  function handleClick(event) {
+    event.preventDefault()
+    console.log(event.target.id)
+    if(!(clickedPokemon.includes(event.target.id))) {
+    let currentClickedPokemon = structuredClone(clickedPokemon)
+    currentClickedPokemon.push(event.target.id)
+    shuffleCards(pokemonCards)
+    setClickedPokemon(currentClickedPokemon)
+    }
+    else {
+      console.log("You Lost")
+    }
+  }
+
+  function shuffleCards(pokemonCards) {
+    console.log(pokemonCards)
+    let currentIndex = pokemonCards.length
+    while (currentIndex != 0) {
+      let randomIndex = Math.floor(Math.random() * currentIndex)
+      currentIndex--
+      [pokemonCards[currentIndex], pokemonCards[randomIndex]] = [pokemonCards[randomIndex], pokemonCards[currentIndex]] 
+    }
+  }
+
   let pokemonCards = []
   for (let pokemon = 0; pokemon < pokemonImageList.length; pokemon++) {
-    pokemonCards.push(<PokemonCard image={pokemonImageList[pokemon]} id={pokemon}></PokemonCard>)
+    pokemonCards.push(<PokemonCard image={pokemonImageList[pokemon]} id={pokemon} key={pokemon} handleClick={handleClick}></PokemonCard>)
   }
-  console.log(pokemonCards)
+  console.log(clickedPokemon)
   return (
     <>
+      <Scoreboard></Scoreboard>
       {pokemonCards}   
+      
     </>
   )
 }
