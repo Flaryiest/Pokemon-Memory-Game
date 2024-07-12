@@ -78,13 +78,18 @@ function App() {
   }
   
   return (
-    <>
+    <div className="content">
+
+      <h1 className="title">Pokemon Memory Game</h1>
       <Scoreboard currentScore={currentScore}></Scoreboard>
-      <button onClick={(startGame)}></button>
+      <button onClick={(startGame)}>New Game</button>
+ 
+      <div className="cards">
       {pokemonCards.map((item) => {
         return (<PokemonCard image={item.image} id={item.id} key={item.key} handleClick={handleClick}></PokemonCard>)
       })} 
-    </>
+      </div>
+    </div>
   )
 }
 

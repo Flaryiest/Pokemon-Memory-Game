@@ -5,7 +5,7 @@ function Scoreboard({currentScore}) {
     if (currentScore > highScore) {
         setHighScore(currentScore)
     }
-    return <div>
+    return <div className="scoreboard">
         <div>Current Score: {currentScore}</div>
         <div>High Score: {highScore}</div>
     </div>

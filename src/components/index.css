@@ -47,9 +47,75 @@ table {
 	border-spacing: 0;
 }
 
+
+
+body {
+	width: 100dvw;
+	height: 100dvh;
+	background-image: url(../../assets/background.jpg);
+	overflow-x: hidden;
+}
+
+
 :root {
   font-family: "Roboto", sans-serif;
   font-weight: 400;
   font-style: normal;
-  
+}
+.content {
+	padding-top: 5dvh;
+	padding-bottom: 10dvh;
+	width: 100dvw;
+	height: 85dvh;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	
+}
+.cards {
+	display: flex;	
+	align-self: center;
+	justify-content: center;
+	width: 100dvw;
+	height: 90dvh;
+	flex-wrap: wrap;
+	gap: 16px;
+	align-content: center;
+
+}
+
+img {
+	width: 200px;
+	height: 200px;
+
+}
+
+.scoreboard {
+	display: flex;
+	gap: 16px;
+	color: white;
+}
+.title {
+	font-size: 2em;
+	color: white;
+	margin-bottom: 2dvh;
+}
+
+button {
+	margin-top: 1dvh;
+	font-size: 1.5em;
+	background-color: white;
+	color: black;
+	border-radius: 8px;
+
+}
+
+@media only screen and (max-width: 600px) {
+	.content {
+		padding-top: 25dvh;
+	}
+	.cards {
+		padding-top: 25dvh;
+	}
 }
