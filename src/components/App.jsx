@@ -5,26 +5,26 @@ function App() {
   const [pokemonImageList, setPokemonImageList] = useState([])
   const clickedPokemon = useRef([])
   const [pokemonCards, setPokemonCards] = useState([])
+  const [playing, setPlaying] = useState(false)
+  
   useEffect(() => {
     let pokemonIds = getIds(12)
     getPokemonImages(pokemonIds)
-
-  }, [])
+    
+  }, [playing])
 
   useEffect(() => {
     let pokemonCardsTemp = []
     for (let pokemon = 0; pokemon < pokemonImageList.length; pokemon++) {
       pokemonCardsTemp.push(<PokemonCard image={pokemonImageList[pokemon]} id={pokemon} key={pokemon} handleClick={handleClick}></PokemonCard>)
     }
-    console.log(pokemonCardsTemp, "init")
     setPokemonCards(pokemonCardsTemp)
-    
   }, [pokemonImageList])
 
   function getIds(number) {
     let currentIds = []
     while (currentIds.length < number) {
-      let potentialId = Math.floor(Math.random() * 151)
+      let potentialId = Math.floor(Math.random() * 1000)
       if (!(currentIds.includes(potentialId))) {
         currentIds.push(potentialId)
       }
@@ -40,14 +40,20 @@ function App() {
       const pokemonImage = pokemonFile.sprites.front_default
       currentImageList.push(pokemonImage)    
     }
+
     setPokemonImageList(currentImageList)
   }
 
   function handleClick(event) {
-    clickedPokemon.current = clickedPokemon.current.concat([event.target.id])
-    
-    shuffleCards(pokemonCards)
-    console.log(clickedPokemon) 
+    if (!(clickedPokemon.current.includes(event.target.id))) {
+      clickedPokemon.current = clickedPokemon.current.concat([event.target.id])
+      shuffleCards(pokemonCards)
+
+    }
+    else {
+      console.log("You lost")
+    }
+
   }
 
   function shuffleCards(pokemonCards) {
@@ -66,13 +72,21 @@ function App() {
     setPokemonCards(tempPokemonCards)
   }
 
-
+  function startGame() {
+    setPokemonImageList([])
+    setPokemonCards([])
+    setPlaying(true)
+    console.log(pokemonCards)
+    
+    clickedPokemon.current = []
+  }
 
 
   
   return (
     <>
-      <Scoreboard></Scoreboard>
+      <Scoreboard currentClicked={clickedPokemon}></Scoreboard>
+      <button onClick={startGame}></button>
       {pokemonCards}   
     </>
   )
