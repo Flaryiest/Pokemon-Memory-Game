@@ -1,14 +1,25 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import PokemonCard from './PokemonCard'
 import Scoreboard from './Scoreboard'
 function App() {
   const [pokemonImageList, setPokemonImageList] = useState([])
-  const [clickedPokemon, setClickedPokemon] = useState([])
+  const clickedPokemon = useRef([])
+  const [pokemonCards, setPokemonCards] = useState([])
   useEffect(() => {
     let pokemonIds = getIds(12)
-
     getPokemonImages(pokemonIds)
+
   }, [])
+
+  useEffect(() => {
+    let pokemonCardsTemp = []
+    for (let pokemon = 0; pokemon < pokemonImageList.length; pokemon++) {
+      pokemonCardsTemp.push(<PokemonCard image={pokemonImageList[pokemon]} id={pokemon} key={pokemon} handleClick={handleClick}></PokemonCard>)
+    }
+    console.log(pokemonCardsTemp, "init")
+    setPokemonCards(pokemonCardsTemp)
+    
+  }, [pokemonImageList])
 
   function getIds(number) {
     let currentIds = []
@@ -33,39 +44,36 @@ function App() {
   }
 
   function handleClick(event) {
-    event.preventDefault()
-    console.log(event.target.id)
-    if(!(clickedPokemon.includes(event.target.id))) {
-    let currentClickedPokemon = structuredClone(clickedPokemon)
-    currentClickedPokemon.push(event.target.id)
+    clickedPokemon.current = clickedPokemon.current.concat([event.target.id])
+    
     shuffleCards(pokemonCards)
-    setClickedPokemon(currentClickedPokemon)
-    }
-    else {
-      console.log("You Lost")
-    }
+    console.log(clickedPokemon) 
   }
 
   function shuffleCards(pokemonCards) {
-    console.log(pokemonCards)
-    let currentIndex = pokemonCards.length
+    let currentPokemonCards = pokemonCards
+    let currentIndex = currentPokemonCards.length
     while (currentIndex != 0) {
       let randomIndex = Math.floor(Math.random() * currentIndex)
       currentIndex--
-      [pokemonCards[currentIndex], pokemonCards[randomIndex]] = [pokemonCards[randomIndex], pokemonCards[currentIndex]] 
+      [currentPokemonCards[currentIndex], currentPokemonCards[randomIndex]] = [currentPokemonCards[randomIndex], currentPokemonCards[currentIndex]] 
     }
+    console.log(currentPokemonCards, "after shuffling")
+    let tempPokemonCards = []
+    for (let card = 0; card < currentPokemonCards.length; card++) {
+      tempPokemonCards.push(<PokemonCard image={currentPokemonCards[card].props.image} id={currentPokemonCards[card].props.id} key={currentPokemonCards[card].props.id} handleClick={handleClick}></PokemonCard>)
+    }
+    setPokemonCards(tempPokemonCards)
   }
 
-  let pokemonCards = []
-  for (let pokemon = 0; pokemon < pokemonImageList.length; pokemon++) {
-    pokemonCards.push(<PokemonCard image={pokemonImageList[pokemon]} id={pokemon} key={pokemon} handleClick={handleClick}></PokemonCard>)
-  }
-  console.log(clickedPokemon)
+
+
+
+  
   return (
     <>
       <Scoreboard></Scoreboard>
       {pokemonCards}   
-      
     </>
   )
 }
