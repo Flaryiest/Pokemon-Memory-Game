@@ -1,12 +1,7 @@
 import { useState, useEffect } from 'react'
 
-function Scoreboard({currentClicked}) {
+function Scoreboard({currentScore}) {
     const [highScore, setHighScore] = useState(0)
-    const [currentScore, setCurrentScore] = useState(0)
-    if (currentClicked.current.length >= currentScore + 1) {
-        setCurrentScore(currentClicked.current.length)
-    }
-
     if (currentScore > highScore) {
         setHighScore(currentScore)
     }

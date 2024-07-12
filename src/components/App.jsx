@@ -39,6 +39,7 @@ function App() {
     }
     else {
       console.log("You lost")
+      clickedPokemon.current = []
       setCurrentScore(0)
     }
 
@@ -78,7 +79,7 @@ function App() {
   
   return (
     <>
-      <Scoreboard currentClicked={clickedPokemon}></Scoreboard>
+      <Scoreboard currentScore={currentScore}></Scoreboard>
       <button onClick={(startGame)}></button>
       {pokemonCards.map((item) => {
         return (<PokemonCard image={item.image} id={item.id} key={item.key} handleClick={handleClick}></PokemonCard>)
