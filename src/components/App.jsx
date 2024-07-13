@@ -34,11 +34,9 @@ function App() {
       clickedPokemon.current = clickedPokemon.current.concat([event.target.id])
       let newScore = currentScore + 1
       setCurrentScore(newScore)
-      console.log(currentScore)
       shuffleCards(pokemonCards)
     }
     else {
-      console.log("You lost")
       clickedPokemon.current = []
       setCurrentScore(0)
     }
@@ -54,12 +52,19 @@ function App() {
   }
 
   function shuffleCards(pokemonCards) {
+    console.log(pokemonCards)
     let currentPokemonCards = structuredClone(pokemonCards)
     let currentIndex = currentPokemonCards.length
+    console.log(currentIndex)
     while (currentIndex != 0) {
       let randomIndex = Math.floor(Math.random() * currentIndex)
       currentIndex--
-      [currentPokemonCards[currentIndex], currentPokemonCards[randomIndex]] = [currentPokemonCards[randomIndex], currentPokemonCards[currentIndex]] 
+      let temp = structuredClone(currentPokemonCards[currentIndex])
+      currentPokemonCards[currentIndex] = currentPokemonCards[randomIndex]
+      currentPokemonCards[randomIndex] = temp
+
+      console.log("test") 
+      
     }
 
     setPokemonCards(currentPokemonCards)
