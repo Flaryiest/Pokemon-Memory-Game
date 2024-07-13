@@ -52,10 +52,8 @@ function App() {
   }
 
   function shuffleCards(pokemonCards) {
-    console.log(pokemonCards)
     let currentPokemonCards = structuredClone(pokemonCards)
     let currentIndex = currentPokemonCards.length
-    console.log(currentIndex)
     while (currentIndex != 0) {
       let randomIndex = Math.floor(Math.random() * currentIndex)
       currentIndex--
@@ -63,7 +61,6 @@ function App() {
       currentPokemonCards[currentIndex] = currentPokemonCards[randomIndex]
       currentPokemonCards[randomIndex] = temp
 
-      console.log("test") 
       
     }
 
