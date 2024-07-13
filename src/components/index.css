@@ -52,7 +52,7 @@ table {
 body {
 	width: 100dvw;
 	height: 100dvh;
-	background-image: url(../../assets/background.jpg);
+	
 	overflow-x: hidden;
 }
 
